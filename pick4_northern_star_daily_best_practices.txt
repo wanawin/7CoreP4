@@ -1,0 +1,42 @@
+Pick 4 Northern Star — Daily Best Practices (Top2 members, no Rare/Ultra)
+
+Definition of a 'captured hit' (Top2-only mode)
+- A captured hit means: the winning draw is a FAMILY DOUBLES member (Structure = AABC), and its member label (AABC/ABBC/ABCC) is in your Top2 member picks for that core (and in the stream(s) you actually play).
+- AAAB / AABB / AAAA are NOT counted as captured hits unless you explicitly add plays for them.
+
+Daily workflow (recommended)
+1) Load data
+   - Upload the all-states history CSV (LotteryPost export) OR use the on-disk rolling store.
+   - Optional: upload the 24-hour file. If missing, the app still runs (24h features will be skipped).
+
+2) Choose cores
+   - Start with your target cores (e.g., 389, 016, 129, etc.).
+   - Keep 'Top2 members only' when minimizing plays.
+
+3) Build today's playlist
+   - Use Northern Lights to generate the ranked Core+Stream playlist.
+   - Verify the build stamp matches the filename (avoids stale deployments).
+
+4) Validate (no-cheat)
+   - Go to Backtest → Walk-forward (no cheating).
+   - Use: window_days = 180 (or 365), include_rare = OFF (Top2-only intent), member basis = Per-core+stream (if enough samples).
+   - Turn OFF 'Diagnostic only: evaluate only hit days' when you want true per-draw denominators (EV / cost).
+
+5) Use the Validator (60 hits / 60 days target)
+   - Validator is the ONLY place meant to answer: 'Do we consistently hit ≥60 in 60 days with minimal plays?'
+   - Train = 180 days; refresh = 7 days; test = next 60 days.
+   - Require the playlist to satisfy multiple 60-day slices inside training (reduces overfit).
+   - Then check the test-window hits and the plays/day.
+
+Interpreting the Backtest panels (quick)
+- Walk-forward summary: % predicted of core-family wins (this is NOT the same as 60/60-day goal).
+- Member pick accuracy: Top1/Top2 rates for predicting which member label hits when a core hits.
+- Box-first KPI: cost/plays/hits under the 'box first, straight add-on' plan. Uses ALL draws when configured that way.
+- By core / By stream: where the model is strongest; use it to trim plays safely.
+- Manual day replay: sanity-check one date end-to-end (what the model would have recommended that day).
+
+Best-practice defaults (min-spend)
+- Window days: 180
+- Refresh (Validator): 7 days
+- Member picks: Top2 (not Top1)
+- Rare/Ultra: OFF (unless you explicitly budget for them)
